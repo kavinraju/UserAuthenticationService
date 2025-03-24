@@ -1,13 +1,13 @@
 package com.example.userauthenticationservice.models;
 
+import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public abstract class User {
-    private String name;
-    private String userName;
+@Entity
+public class User extends BaseModel{
+    private String emailId;
     private String password;
-    private Long phoneNumber;
 }

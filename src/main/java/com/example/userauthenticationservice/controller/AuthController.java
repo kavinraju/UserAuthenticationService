@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AuthController {
 
     @PostMapping("/signUp")
-    public SignUpResponseDto signUp(@RequestBody SignUpRequestDto requestDto) {
+    public UserDto signUp(@RequestBody SignUpRequestDto requestDto) {
         return null;
     }
 
     @PostMapping("/login")
-    public LoginResponseDto login(@RequestBody LoginRequestDto requestDto) {
+    public UserDto login(@RequestBody LoginRequestDto requestDto) {
         return null;
     }
 
