@@ -16,7 +16,7 @@ public class AuthController {
     @Autowired
     private IAuthService authService;
 
-    @PostMapping("/signUp")
+    @PostMapping("/signup")
     public UserDto signUp(@RequestBody SignUpRequestDto requestDto) {
         User user = authService.signUp(requestDto.getEmailId(), requestDto.getPassword());
         return from(user);
