@@ -12,13 +12,13 @@ import javax.crypto.SecretKey;
 
 @Configuration
 public class SecurityConfig {
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.cors().disable();
-        httpSecurity.csrf().disable();
-        httpSecurity.authorizeRequests(authorize -> authorize.anyRequest().permitAll());
-        return httpSecurity.build();
-    }
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+//        httpSecurity.cors().disable();
+//        httpSecurity.csrf().disable();
+//        httpSecurity.authorizeRequests(authorize -> authorize.anyRequest().permitAll());
+//        return httpSecurity.build();
+//    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
