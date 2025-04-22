@@ -1,11 +1,15 @@
 package com.example.userauthenticationservice.services;
 
+import com.example.userauthenticationservice.clients.KafkaProducerClient;
+import com.example.userauthenticationservice.dtos.EmailDto;
 import com.example.userauthenticationservice.exceptions.InvalidCredentialsException;
 import com.example.userauthenticationservice.exceptions.InvalidTokenException;
 import com.example.userauthenticationservice.exceptions.UserAlreadyExistException;
 import com.example.userauthenticationservice.exceptions.UserNotFoundException;
 import com.example.userauthenticationservice.models.User;
 import com.example.userauthenticationservice.repos.UserRepo;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
@@ -31,6 +35,12 @@ public class AuthService implements IAuthService {
     @Autowired
     private SecretKey secretKey;
 
+    @Autowired
+    private KafkaProducerClient kafkaProducerClient;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @Override
     public User signUp(String email, String password) {
         Optional<User> optionalUser = userRepo.findUserByEmailId(email);
@@ -42,6 +52,18 @@ public class AuthService implements IAuthService {
         user.setEmailId(email);
         user.setPassword(bCryptPasswordEncoder.encode(password));
 
+        // TODO: Send message via kafka
+        EmailDto emailDto = new EmailDto();
+        emailDto.setTo(user.getEmailId());
+        emailDto.setFrom("anuragbatch@gmail.com");
+        emailDto.setSubject("Sign up success");
+        emailDto.setBody("Thanks for signing. Have a great shopping experience.");
+
+        try {
+            kafkaProducerClient.sendMessage("signup", objectMapper.writeValueAsString(emailDto));
+        } catch (JsonProcessingException ex) {
+            throw new RuntimeException(ex.getMessage());
+        }
         return userRepo.save(user);
     }
 

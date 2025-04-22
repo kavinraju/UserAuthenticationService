@@ -1,6 +1,7 @@
 package com.example.userauthenticationservice.services;
 
 import com.example.userauthenticationservice.models.User;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.antlr.v4.runtime.misc.Pair;
 
 public interface IAuthService {
